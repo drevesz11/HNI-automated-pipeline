@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Part 1 - Invert (create neg) of lesionmask file
+for i in $(find /home/drevesz/Desktop/segmentation_may23/Images -type f -name "*_Predict.nii.gz"); do
+    input=${i%_Predict.nii.gz}
+    output=${i%_Predict.nii.gz}_neg.nii.gz
+    echo "input1: $input"
+    echo "output1: $output"
+    ImageMath 3 $output Neg $input"_Predict.nii.gz"
+done
+
+# Part 2 - Extension of lesionmask
+for i in $(find /home/drevesz/Desktop/segmentation_may23/Images -type f -name "*_DAGMNet_CH3_Lesion_neg.nii.gz"); do
+  input=$i
+  output=$(echo $i | sed "s/Images/standardised_images_HNI_space\/images/g;s/_DAGMNet_CH3_Lesion_neg.nii.gz/_ME.nii.gz/g")
+  echo "input2: "$input
+  echo "output2: "$output
+
+  # Extract folder name
+  folder=$(dirname "${output}")
+
+  # Create folder if it doesn't exist
+  mkdir -p "$folder"
+
+  # Apply morphological extension
+  ImageMath 3 $input ME $input 2
+
+  # Rename file to destination name
+  mv $input $output
+done
