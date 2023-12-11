@@ -4,9 +4,9 @@ We provide an automated pipeline to facilitate neuroimaging big-data analysis. T
 
 
 Requirements#
-tflow_select=2.3.0
-ants=2.3.1
-dcm2niix=1.0.2
+- tflow_select=2.3.0
+- ants=2.3.1
+- dcm2niix=1.0.2
 dcmtk=3.6.1=4
 h5py=2.10.0
 importlib-metadata=4.8.1
